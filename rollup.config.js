@@ -22,7 +22,7 @@ export default {
     sourcemap: true,
     format: "iife",
     name: "app",
-    file: "public/bundle.js"
+    file: production ? "docs/bundle.js" : "public/bundle.js"
   },
   plugins: [
     svelte({
