@@ -1,7 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
   import { Button, Checkbox, Switch, Snackbar } from "smelte";
-  // export let name;
   import DataTable from './datatable';
   import data from './data/data';
   import columndata from './data/columndata';

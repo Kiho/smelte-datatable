@@ -1,7 +1,7 @@
 <script>
 	import { beforeUpdate, createEventDispatcher, onMount } from 'svelte';
 	import Fuse from 'fuse.js';
-	import { Icon } from 'smelte';
+	import { Icon, Spacer } from 'smelte';
 
 	import Paginate from './Paginate.svelte';
 	import { debounce } from './debounce';
@@ -123,8 +123,8 @@
 
 	$: isServerProcess = process == 'server';
 
-  export let asc = false;
-  let sortBy = null;
+  // export let asc = false;
+  // let sortBy = null;
 
 	// $: sorted = sort(sortBy);
 	
@@ -287,19 +287,14 @@
 			<tr>
 			{#each columns as column, i}
 				<slot name="header">
-					<th
-						class="capitalize"
-						on:click={() => {
-							if (column.sortable === false) return;
-								asc = sortBy === column ? !asc : false;
-								sortBy = column;
-						}}
-					>
+					<th on:click="{() => sort(i)}"
+								class="{ column.numeric ? ' numeric' : ''}"
+								style="width: { column.width ? column.width : 'auto' }">
 						<div class="sort-wrapper">
 							{#if column.component === 'action'}
 								&nbsp;            
 							{:else if column.sortable !== false && column.component !== 'action'}
-								<span class="sort" class:asc={!asc && sortBy === column}>
+								<span class="sort" class:asc={sortType === 'desc' && sortColumn === i}>
 									<Icon small color="text-gray-400">arrow_downward</Icon>
 								</span>
 							{/if}
@@ -332,10 +327,10 @@
 			<tr>
 				<td colspan="100%">
 					<div class="flex justify-between items-center text-gray-700 text-sm w-full h-8">
-						<div class="datatable-length">
+						<div>
 							<label>
 								<span>Rows per page:</span>
-								<select class="browser-default" bind:value="{currentPerPage}">
+								<select bind:value="{currentPerPage}">
 									{#each perPageOptions as option, x}
 										<option value={option}>
 										{ option === -1 ? 'All' : option }
@@ -344,10 +339,12 @@
 								</select>
 							</label>
 						</div>
-						<div class="datatable-info">
+						<Spacer />
+						<div>
 							{(currentPage - 1) * currentPerPage ? (currentPage - 1) * currentPerPage : 1}
 								-{Math.min(rowCount, currentPerPage * currentPage)} of {rowCount}
 						</div>
+						<Spacer />
 						<div>
 							<Paginate
 								bind:pageCount={pageCount}

@@ -35,7 +35,8 @@ function processRows(rows, searchText, paginated) {
 	}
 
 	if (sortable !== false && sortColumn > -1 && columns) {
-		computedRows = computedRows.sort((x, y) => {
+		console.log('computedRows', computedRows);
+		computedRows = computedRows.slice().sort((x, y) => {
 			if (!columns[sortColumn])
 				return 0;
 

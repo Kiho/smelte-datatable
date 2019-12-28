@@ -54,7 +54,7 @@ function getData(p) {
             return (x < y ? -1 : (x > y ? 1 : 0)) * (p.direction === 'desc' ? -1 : 1);
         };
 
-        data = data.sort(sort);
+        data = data.slice().sort(sort);
     }
 
     if (p.searchText) { 
