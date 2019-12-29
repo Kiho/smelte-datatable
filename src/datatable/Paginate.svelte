@@ -186,6 +186,10 @@
 {/if}
 
 <style>
+	button {
+		@apply rounded-sm;
+  }
+  
 	button.active {
 		@apply bg-primary-500 text-white;
 	}
