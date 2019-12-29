@@ -45,7 +45,7 @@
 	export let paged = { paginate: paginate };
 	export let getList = null;
 
-	export let wrapperClasses = "rounded elevation-3 relative text-sm overflow-x-auto";
+	export let wrapperClasses = "rounded elevation-3 relative text-sm overflow-x-auto min-w-full";
 
 	const dispatch = createEventDispatcher();
 	let isServerProcess = false;
@@ -234,12 +234,11 @@
 
 	const buttonProps = {
     color: "gray",
-    iconClass: "text-gray-900 absolute",
-    text: false,
-    add: "mx-auto",
-    remove: "p-4 m-4",
-		small: true,
+    iconClass: "text-gray-800",
+    add: "p-2",
+    remove: "p-4 m-4 px-4",
 		flat: true,
+		text: true,
     light: true,
   };
 </script>
@@ -247,20 +246,20 @@
 <div class="material-table">
 	<div class="table-header">
 		<span class="table-title">{title}</span>
-		<div class="flex items-center text-gray-700 text-sm w-full h-8">
+		<div class="flex items-center justify-end text-gray-800 text-sm w-full h-12">
 			{#each customButtons as button, x}
 				{#if !button.hide}
 					<Button {...buttonProps} icon={button.icon} on:click="{click}" />
 				{/if}
 			{/each}
 			{#if printable}
-				<Button {...buttonProps} icon="print" on:click="{() => print(columns, rows)}" />
+				<Button icon="print" {...buttonProps} on:click="{() => print(columns, rows)}" />
 			{/if}
 			{#if exportable}
-				<Button {...buttonProps} icon="description" on:click="{() => exportExcel(columns, rows, title)}" />
+				<Button icon="description" {...buttonProps} on:click="{() => exportExcel(columns, rows, title)}" />
 			{/if}
 			{#if searchable}
-				<Button {...buttonProps} icon="search" on:click="{search}" />
+				<Button icon="search" {...buttonProps} on:click="{search}" />
 			{/if}
 		</div>
 	</div>
@@ -345,9 +344,9 @@
 								marginPages="2"
 								pageRange="4"
 								containerClass="flex w-full justify-between"
-								pageLinkClass="m-auto p-2"
-								prevLinkClass="m-auto py-2"
-								nextLinkClass="m-auto py-2"
+								pageLinkClass="m-auto py-1 px-2"
+								prevLinkClass="mr-1 py-1"
+								nextLinkClass="ml-1 py-1"
 								bind:selected="{selected}"
 								activeClass="active"
 								noLiSurround

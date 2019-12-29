@@ -35,9 +35,6 @@
 <div class="container mx-auto h-full items-center">
   <h3>Data Table!</h3>
   <div class="py-6">
-    <Button>Button</Button>
-  </div>
-  <div class="py-6">
     <Switch label="{process}" bind:value={isServerProcess} />
   </div>
 

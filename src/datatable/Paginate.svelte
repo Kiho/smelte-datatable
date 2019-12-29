@@ -169,26 +169,28 @@
 </ul>
 {:else} 
 <div class={containerClass}>
-    <a href="#!" on:click="{prevPage}" class="{prevLinkClass} { firstPageSelected(selected) ? disabledClass : '' }" tabindex="0">
-        <slot name="prevContent">{ prevText }</slot></a>
+  <button on:click="{prevPage}" class="{prevLinkClass} { firstPageSelected(selected) ? disabledClass : '' }" tabindex="0">
+        <slot name="prevContent">{ prevText }</slot></button>
     {#each pages as page}
-        {#if page.disabled}
-            <a href="#!" class="{pageLinkClass} { page.selected ? activeClass : ''} { page.disabled ? disabledClass : '' }" tabindex="0">{ page.content }</a>
-        {:else}
-            <a href="#!" on:click="{event => handlePageSelected(event, page.index)}" class="{pageLinkClass} { page.selected ? activeClass : ''} { page.disabled ? disabledClass : '' }" tabindex="0">
-                { page.content }
-            </a>
-        {/if}    
+      {#if page.disabled}
+          <button class="{pageLinkClass} { page.selected ? activeClass : ''} { page.disabled ? disabledClass : '' }" tabindex="0">{ page.content }</button>
+      {:else}
+          <button on:click="{event => handlePageSelected(event, page.index)}" class="{pageLinkClass} { page.selected ? activeClass : ''} { page.disabled ? disabledClass : '' }" tabindex="0">
+              { page.content }
+          </button>
+      {/if}    
     {/each}
-    <a href="#!" on:click="{nextPage}" class="{nextLinkClass} {lastPageSelected(selected, pageCount) ? disabledClass : '' }" tabindex="0">
-        <slot name="nextContent">{ nextText }</slot></a>
+  <button on:click="{nextPage}" class="{nextLinkClass} {lastPageSelected(selected, pageCount) ? disabledClass : '' }" tabindex="0">
+        <slot name="nextContent">{ nextText }</slot></button>
 </div>
 {/if}
 
-
-
 <style>
-a {
-    cursor: pointer;
-}
+	button.active {
+		@apply bg-primary-500 text-white;
+	}
+
+  button.disabled {
+    @apply text-gray-500 pointer-events-none cursor-default;
+  }
 </style>
