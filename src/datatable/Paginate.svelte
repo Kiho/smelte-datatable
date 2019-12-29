@@ -151,21 +151,21 @@
 
 {#if !noLiSurround}
 <ul class={containerClass}>
-    <li class="{prevClass} { firstPageSelected(selected) ? disabledClass : '' }">
-        <a href="#!" on:click="{prevPage}" class={prevLinkClass} tabindex="0"><slot name="prevContent">{ prevText }</slot></a>
+  <li class="{prevClass} { firstPageSelected(selected) ? disabledClass : '' }">
+    <button on:click="{prevPage}" class={prevLinkClass} tabindex="0"><slot name="prevContent">{ prevText }</slot></button>
+  </li>
+  {#each pages as page}
+    <li class="{ page.selected ? activeClass : ''}">
+      {#if page.disabled}
+        <button class={pageLinkClass} tabindex="0">{ page.content }</button>
+      {:else}     
+        <button on:click="{event => handlePageSelected(event, page.index)}" class={pageLinkClass} tabindex="0">{ page.content }</button>
+      {/if}
     </li>
-    {#each pages as page}
-        <li class="{ page.selected ? activeClass : ''}">
-            {#if page.disabled}
-                <a href="#!" class={pageLinkClass} tabindex="0">{ page.content }</a>
-            {:else}     
-                <a href="#!" on:click="{event => handlePageSelected(event, page.index)}" class={pageLinkClass} tabindex="0">{ page.content }</a>
-            {/if}
-        </li>
-    {/each}
-    <li class="{nextClass} {lastPageSelected(selected, pageCount) ? disabledClass : '' }">
-        <a href="#!" on:click="{nextPage}" class="{nextLinkClass}" tabindex="0"><slot name="nextContent">{ nextText }</slot></a>
-    </li>
+  {/each}
+  <li class="{nextClass} {lastPageSelected(selected, pageCount) ? disabledClass : '' }">
+    <button on:click="{nextPage}" class="{nextLinkClass}" tabindex="0"><slot name="nextContent">{ nextText }</slot></button>
+  </li>
 </ul>
 {:else} 
 <div class={containerClass}>
@@ -173,11 +173,11 @@
         <slot name="prevContent">{ prevText }</slot></button>
     {#each pages as page}
       {#if page.disabled}
-          <button class="{pageLinkClass} { page.selected ? activeClass : ''} { page.disabled ? disabledClass : '' }" tabindex="0">{ page.content }</button>
+        <button class="{pageLinkClass} { page.selected ? activeClass : ''} { page.disabled ? disabledClass : '' }" tabindex="0">{ page.content }</button>
       {:else}
-          <button on:click="{event => handlePageSelected(event, page.index)}" class="{pageLinkClass} { page.selected ? activeClass : ''} { page.disabled ? disabledClass : '' }" tabindex="0">
-              { page.content }
-          </button>
+        <button on:click="{event => handlePageSelected(event, page.index)}" class="{pageLinkClass} { page.selected ? activeClass : ''} { page.disabled ? disabledClass : '' }" tabindex="0">
+          { page.content }
+        </button>
       {/if}    
     {/each}
   <button on:click="{nextPage}" class="{nextLinkClass} {lastPageSelected(selected, pageCount) ? disabledClass : '' }" tabindex="0">
@@ -186,15 +186,19 @@
 {/if}
 
 <style>
+  li,
 	button {
 		@apply rounded-sm;
-  }
-  
+  }  
+  li.active,
 	button.active {
 		@apply bg-primary-500 text-white;
 	}
-
+  li.disabled,
   button.disabled {
     @apply text-gray-500 pointer-events-none cursor-default;
+  }
+  li {
+    @apply my-auto;
   }
 </style>

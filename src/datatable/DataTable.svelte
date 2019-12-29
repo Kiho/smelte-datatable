@@ -349,7 +349,6 @@
 								nextLinkClass="ml-1 py-1"
 								bind:selected="{selected}"
 								activeClass="active"
-								noLiSurround
 								>	
 								<i class="material-icons align-middle" slot="prevContent">chevron_left</i>
 								<i class="material-icons align-middle" slot="nextContent">chevron_right</i>			
