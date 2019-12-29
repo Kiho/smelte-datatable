@@ -1,7 +1,7 @@
 <script>
 	import { beforeUpdate, createEventDispatcher, onMount } from 'svelte';
 	import Fuse from 'fuse.js';
-	import { Icon, Spacer } from 'smelte';
+	import { Icon, Spacer, Button } from 'smelte';
 
 	import Paginate from './Paginate.svelte';
 	import { debounce } from './debounce';
@@ -231,42 +231,36 @@
 			}, 400)();
 		}	        
 	});
+
+	const buttonProps = {
+    color: "gray",
+    iconClass: "text-gray-900 absolute",
+    text: false,
+    add: "mx-auto",
+    remove: "p-4 m-4",
+		small: true,
+		flat: true,
+    light: true,
+  };
 </script>
 
 <div class="material-table">
 	<div class="table-header">
 		<span class="table-title">{title}</span>
-		<div class="actions">
+		<div class="flex items-center text-gray-700 text-sm w-full h-8">
 			{#each customButtons as button, x}
-			{#if !button.hide}
-			<a href="#!"
-				class="waves-effect btn-flat nopadding"
-				on:click="{click}">
-				<i class="material-icons">{button.icon}</i>
-			</a>
-			{/if}
+				{#if !button.hide}
+					<Button {...buttonProps} icon={button.icon} on:click="{click}" />
+				{/if}
 			{/each}
 			{#if printable}
-			<a href="#!"
-				class="waves-effect btn-flat nopadding"
-				on:click="{() => print(columns, rows)}">
-				<i class="material-icons">print</i>
-			</a>
+				<Button {...buttonProps} icon="print" on:click="{() => print(columns, rows)}" />
 			{/if}
 			{#if exportable}
-			<a href="#!"
-				class="waves-effect btn-flat nopadding"
-				v-if="this.exportable"
-				on:click="{() => exportExcel(columns, rows, title)}">
-				<i class="material-icons">description</i>
-			</a>
+				<Button {...buttonProps} icon="description" on:click="{() => exportExcel(columns, rows, title)}" />
 			{/if}
 			{#if searchable}
-			<a href="#!"
-				class="waves-effect btn-flat nopadding"
-				on:click="{search}">
-				<i class="material-icons">search</i>
-			</a>
+				<Button {...buttonProps} icon="search" on:click="{search}" />
 			{/if}
 		</div>
 	</div>
