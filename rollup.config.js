@@ -30,12 +30,12 @@ export default {
       // enable run-time checks when not in production
       dev: !production,
       css: css => {
-        css.write("public/components.css");
+        css.write(production ?  "docs/components.css" : "public/components.css");
       }
     }),
     postcss({
       plugins: require("./postcss.config.js")(production),
-      extract: "public/utils.css"
+      extract: production ?  "docs/utils.css" : "public/utils.css"
     }),
 
     // If you have external dependencies installed from
