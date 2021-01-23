@@ -37,7 +37,7 @@
 	export let exactSearch = false;		
 
 	export let columns = [];
-	export let process = 'local';
+	export let processMode = 'local';
 	// local
 	export let rows = [];
 	export let paginatedRows = [];
@@ -121,7 +121,7 @@
 		}
 	});
 
-	$: isServerProcess = process == 'server';
+	$: isServerProcess = processMode == 'server';
 
   // export let asc = false;
   // let sortBy = null;
@@ -186,12 +186,17 @@
 	$: selectedPage = selected + 1;
 	let previous;	
 	function update(paginatedRows, size, page) {
-		paginated.update($paginated => {
-			$paginated.paginatedRows = paginatedRows;
-			$paginated.rows = rows;
-			$paginated.size = size;
-			$paginated.page = page;
-		});
+		try {
+			paginated.update($paginated => {
+				$paginated.paginatedRows = paginatedRows;
+				$paginated.rows = rows;
+				$paginated.size = size;
+				$paginated.page = page;
+			});
+		}
+		catch(e) {
+			console.log('update error', e);
+		}
 		previous = $paginated;
 	}
 
@@ -206,7 +211,10 @@
 			}
 			if (selectedPage !== previous.page) {
 				getPaged({ page: selectedPage }, x => x.page != selectedPage);
-				paginate.page = selectedPage;
+				// paginate.page = selectedPage;
+				paginated.update($paginated => {
+					$paginated.page = selectedPage;
+				});
 			}
 		}
 		previous = $paginated;
@@ -349,6 +357,7 @@
 								nextLinkClass="ml-1 py-1"
 								bind:selected="{selected}"
 								activeClass="active"
+								noLiSurround="{false}"
 								>	
 								<i class="material-icons align-middle" slot="prevContent">chevron_left</i>
 								<i class="material-icons align-middle" slot="nextContent">chevron_right</i>			

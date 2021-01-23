@@ -7,7 +7,7 @@
   import getList from './data';
 
   let isReady = false;
-  let process;
+  let processMode;
   let dataTable;
   let showSnackbar = false;
   let isServerProcess = false;
@@ -17,7 +17,7 @@
   });
   
   $: {    
-    process = isServerProcess ? 'server' : 'local';
+    processMode = isServerProcess ? 'server' : 'local';
     if (isReady) {
       if (isServerProcess) {        
         getList().then(function(data){
@@ -35,10 +35,10 @@
 <div class="container mx-auto h-full items-center">
   <h3>Data Table!</h3>
   <div class="py-6">
-    <Switch label="{process}" bind:value={isServerProcess} />
+    <Switch label="{processMode}" bind:value={isServerProcess} />
   </div>
 
-  <DataTable bind:this="{dataTable}" columns="{columndata}" {process} />
+  <DataTable bind:this="{dataTable}" columns="{columndata}" {processMode} />
 
   <Snackbar bind:value={showSnackbar}>
     <div>Have a nice day.</div>
