@@ -210,8 +210,7 @@
 				getPaged({ size: currentPerPage });
 			}
 			if (selectedPage !== previous.page) {
-				getPaged({ page: selectedPage }, x => x.page != selectedPage);
-				// paginate.page = selectedPage;
+				getPaged({ page: selectedPage });
 				paginated.update($paginated => {
 					$paginated.page = selectedPage;
 				});
